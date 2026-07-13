@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_qne_sync_log_tree" model="ir.ui.view">
+        <field name="name">qne.sync.log.tree</field>
+        <field name="model">qne.sync.log</field>
+        <field name="arch" type="xml">
+            <tree default_order="create_date desc" create="false" edit="false">
+                <field name="create_date" string="Run Date"/>
+                <field name="state"/>
+                <field name="created_count"/>
+                <field name="updated_count"/>
+                <field name="error_count"/>
+                <field name="message"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_qne_sync_log_form" model="ir.ui.view">
+        <field name="name">qne.sync.log.form</field>
+        <field name="model">qne.sync.log</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false">
+                <sheet>
+                    <group>
+                        <field name="create_date" string="Run Date"/>
+                        <field name="state"/>
+                        <field name="created_count"/>
+                        <field name="updated_count"/>
+                        <field name="error_count"/>
+                    </group>
+                    <field name="message"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_qne_sync_log" model="ir.actions.act_window">
+        <field name="name">QNE Sync Logs</field>
+        <field name="res_model">qne.sync.log</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_qne_sync_log_root"
+              name="QNE Connector"
+              parent="base.menu_administration"
+              sequence="99"/>
+    <menuitem id="menu_qne_sync_log"
+              name="Sync Logs"
+              parent="menu_qne_sync_log_root"
+              action="action_qne_sync_log"
+              sequence="10"/>
+</odoo>
