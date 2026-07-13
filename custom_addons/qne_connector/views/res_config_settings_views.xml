@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_qne" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.qne.connector</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="QNE Connector" string="QNE Connector" data-key="qne_connector">
+                    <h2>QNE Connector</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="qne_api_base_url" string="API Base URL"/>
+                                <div class="text-muted">
+                                    Base URL of your QNE API, e.g. https://your-tenant-api.qne.cloud
+                                </div>
+                                <field name="qne_api_base_url" placeholder="https://your-tenant-api.qne.cloud"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="qne_api_key" string="API Key"/>
+                                <div class="text-muted">
+                                    API key issued by QNE, sent as a request header.
+                                </div>
+                                <field name="qne_api_key" password="True"/>
+                            </div>
+                        </div>
+                        <div class="col-12 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <button name="action_qne_sync_now" type="object"
+                                        string="Sync Suppliers Now" class="btn btn-primary"/>
+                                <div class="text-muted mt-1">
+                                    Enable the scheduled action "QNE Connector: Sync Suppliers"
+                                    (Settings &gt; Technical &gt; Scheduled Actions) for automatic sync.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
