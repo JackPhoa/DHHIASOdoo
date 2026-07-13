@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_qne" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.qne.connector</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="QNE Sync" name="qne_sync">
+                    <group>
+                        <field name="qne_supplier_id"/>
+                        <field name="qne_last_sync_date"/>
+                        <field name="qne_sync_status"/>
+                        <field name="qne_sync_message" invisible="qne_sync_status != 'error'"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="view_partner_tree_qne" model="ir.ui.view">
+        <field name="name">res.partner.tree.inherit.qne.connector</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="qne_supplier_id" optional="hide"/>
+            </field>
+        </field>
+    </record>
+</odoo>
