@@ -19,7 +19,7 @@ import requests
 _logger = logging.getLogger(__name__)
 
 # TODO: confirm actual path with your QNE API documentation
-SUPPLIER_LIST_ENDPOINT = "/api/v1/suppliers"
+SUPPLIER_LIST_ENDPOINT = "/api/suppliers"
 
 DEFAULT_TIMEOUT = 30
 DEFAULT_PAGE_SIZE = 100
@@ -45,7 +45,7 @@ class QNEAPIClient:
         return {
             # TODO: adjust header name to whatever QNE expects
             # (commonly "X-API-KEY", "Authorization: Apikey <key>", etc.)
-            "X-API-KEY": self.api_key,
+            "DbCode": self.api_key,
             "Accept": "application/json",
             "Content-Type": "application/json",
         }
