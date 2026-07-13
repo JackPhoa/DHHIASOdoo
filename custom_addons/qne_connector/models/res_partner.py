@@ -151,17 +151,17 @@ class ResPartner(models.Model):
         collection and adjust here).
         """
         return {
-            'qne_supplier_id': record.get('SupplierID') or record.get('id'),
-            'name': record.get('SupplierName') or record.get('name'),
-            'street': record.get('Address1') or record.get('address'),
-            'street2': record.get('Address2'),
-            'city': record.get('City'),
-            'zip': record.get('PostCode') or record.get('zip'),
-            'phone': record.get('Phone') or record.get('PhoneNo'),
-            'mobile': record.get('Mobile'),
-            'email': record.get('Email'),
-            'website': record.get('Website'),
-            'vat': record.get('RegistrationNo') or record.get('TaxNo'),
+            'qne_supplier_id': record.get('id'),
+            'name': record.get('companyName'),
+            'street': record.get('address1'),
+            'street2': record.get('address2'),
+            'city': '',
+            'zip': '',
+            'phone': record.get('phoneNo1'),
+            'mobile': record.get('phoneNo2'),
+            'email': record.get('email'),
+            'website': record.get('homepage'),
+            'vat': record.get('registrationNo'),
             'is_company': True,
             'supplier_rank': 1,
         }
