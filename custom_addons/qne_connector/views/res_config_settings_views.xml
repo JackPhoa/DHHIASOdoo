@@ -29,6 +29,15 @@
                         </div>
                         <div class="col-12 o_setting_box">
                             <div class="o_setting_right_pane">
+                                <button name="action_qne_save_config" type="object"
+                                        string="Save Configuration" class="btn btn-primary"/>
+                                <div class="text-muted mt-1">
+                                    Saves the API Base URL and API Key above without running a sync.
+                                </div>
+                            </div>
+                        </div>                        
+                        <div class="col-12 o_setting_box">
+                            <div class="o_setting_right_pane">
                                 <button name="action_qne_sync_now" type="object"
                                         string="Sync Suppliers Now" class="btn btn-primary"/>
                                 <div class="text-muted mt-1">
