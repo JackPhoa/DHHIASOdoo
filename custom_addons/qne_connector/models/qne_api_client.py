@@ -18,8 +18,22 @@ import requests
 
 _logger = logging.getLogger(__name__)
 
-# TODO: confirm actual path with your QNE API documentation
+# TODO: confirm actual paths with your QNE API documentation - these follow
+# common QNE REST naming conventions but your tenant may differ.
 SUPPLIER_LIST_ENDPOINT = "/api/suppliers"
+SUPPLIER_DETAIL_ENDPOINT = "/api/suppliers/{id}"
+CUSTOMER_LIST_ENDPOINT = "/api/customers"
+CUSTOMER_DETAIL_ENDPOINT = "/api/customers/{id}"
+SALES_INVOICE_LIST_ENDPOINT = "/api/salesinvoices"
+SALES_INVOICE_DETAIL_ENDPOINT = "/api/salesinvoices/{id}"
+PURCHASE_INVOICE_LIST_ENDPOINT = "/api/purchaseinvoices"
+PURCHASE_INVOICE_DETAIL_ENDPOINT = "/api/purchaseinvoices/{id}"
+STOCK_ITEM_LIST_ENDPOINT = "/api/stocks"
+STOCK_ITEM_DETAIL_ENDPOINT = "/api/stocks/{id}"
+PURCHASE_ORDER_LIST_ENDPOINT = "/api/purchaseorders"
+PURCHASE_ORDER_DETAIL_ENDPOINT = "/api/purchaseorders/{id}"
+DELIVERY_ORDER_LIST_ENDPOINT = "/api/deliveryorders"
+DELIVERY_ORDER_DETAIL_ENDPOINT = "/api/deliveryorders/{id}"
 
 DEFAULT_TIMEOUT = 30
 DEFAULT_PAGE_SIZE = 100
@@ -72,6 +86,90 @@ class QNEAPIClient:
         except ValueError as exc:
             raise QNEAPIError(f"QNE API returned non-JSON response from {url}") from exc
 
+    def _post(self, path, payload):
+        url = f"{self.base_url}{path}"
+        try:
+            response = requests.post(
+                url, headers=self._headers(), json=payload, timeout=self.timeout
+            )
+        except requests.exceptions.RequestException as exc:
+            _logger.exception("QNE API connection error calling %s", url)
+            raise QNEAPIError(f"Could not reach QNE API at {url}: {exc}") from exc
+        return self._handle_response(response, url)
+
+    def _put(self, path, payload):
+        url = f"{self.base_url}{path}"
+        try:
+            response = requests.put(
+                url, headers=self._headers(), json=payload, timeout=self.timeout
+            )
+        except requests.exceptions.RequestException as exc:
+            _logger.exception("QNE API connection error calling %s", url)
+            raise QNEAPIError(f"Could not reach QNE API at {url}: {exc}") from exc
+        return self._handle_response(response, url)
+
+    def _handle_response(self, response, url):
+        if response.status_code == 401:
+            raise QNEAPIError("QNE API rejected the API key (401 Unauthorized).")
+        if not response.ok:
+            raise QNEAPIError(
+                f"QNE API returned {response.status_code} for {url}: {response.text[:500]}"
+            )
+        if not response.content:
+            return {}
+        try:
+            return response.json()
+        except ValueError as exc:
+            raise QNEAPIError(f"QNE API returned non-JSON response from {url}") from exc
+
+    # ------------------------------------------------------------------
+    # Outbound: push Odoo records to QNE (create/update)
+    # ------------------------------------------------------------------
+    def create_supplier(self, payload):
+        return self._post(SUPPLIER_LIST_ENDPOINT, payload)
+
+    def update_supplier(self, qne_id, payload):
+        return self._put(SUPPLIER_DETAIL_ENDPOINT.format(id=qne_id), payload)
+
+    def create_customer(self, payload):
+        return self._post(CUSTOMER_LIST_ENDPOINT, payload)
+
+    def update_customer(self, qne_id, payload):
+        return self._put(CUSTOMER_DETAIL_ENDPOINT.format(id=qne_id), payload)
+
+    def create_sales_invoice(self, payload):
+        return self._post(SALES_INVOICE_LIST_ENDPOINT, payload)
+
+    def update_sales_invoice(self, qne_id, payload):
+        return self._put(SALES_INVOICE_DETAIL_ENDPOINT.format(id=qne_id), payload)
+
+    def create_purchase_invoice(self, payload):
+        return self._post(PURCHASE_INVOICE_LIST_ENDPOINT, payload)
+
+    def update_purchase_invoice(self, qne_id, payload):
+        return self._put(PURCHASE_INVOICE_DETAIL_ENDPOINT.format(id=qne_id), payload)
+
+    def create_stock_item(self, payload):
+        return self._post(STOCK_ITEM_LIST_ENDPOINT, payload)
+
+    def update_stock_item(self, qne_id, payload):
+        return self._put(STOCK_ITEM_DETAIL_ENDPOINT.format(id=qne_id), payload)
+
+    def create_purchase_order(self, payload):
+        return self._post(PURCHASE_ORDER_LIST_ENDPOINT, payload)
+
+    def update_purchase_order(self, qne_id, payload):
+        return self._put(PURCHASE_ORDER_DETAIL_ENDPOINT.format(id=qne_id), payload)
+
+    def create_delivery_order(self, payload):
+        return self._post(DELIVERY_ORDER_LIST_ENDPOINT, payload)
+
+    def update_delivery_order(self, qne_id, payload):
+        return self._put(DELIVERY_ORDER_DETAIL_ENDPOINT.format(id=qne_id), payload)
+
+    # ------------------------------------------------------------------
+    # Inbound: pull records from QNE
+    # ------------------------------------------------------------------
     def fetch_suppliers(self, page_size=DEFAULT_PAGE_SIZE, updated_since=None):
         """Generator yielding supplier dicts, transparently paging through results.
 
