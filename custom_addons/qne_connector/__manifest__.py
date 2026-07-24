@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'QNE Connector - Supplier Sync',
+    'name': 'QNE API Connector',
     'version': '19.0.3.0.0',
     'category': 'Connector',
     'summary': 'Two-way sync of suppliers, customers, invoices, purchase orders, deliveries and products between QNE and Odoo',
