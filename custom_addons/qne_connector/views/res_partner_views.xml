@@ -7,12 +7,24 @@
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page string="QNE Sync" name="qne_sync">
-                    <group>
+                    <group string="Pull from QNE (as Supplier)">
                         <field name="qne_supplier_id"/>
                         <field name="qne_last_sync_date"/>
                         <field name="qne_sync_status"/>
                         <field name="qne_sync_message" invisible="qne_sync_status != 'error'"/>
                     </group>
+                    <group string="Push to QNE">
+                        <field name="qne_customer_id"/>
+                        <field name="qne_last_push_date"/>
+                        <field name="qne_push_status"/>
+                        <field name="qne_push_message" invisible="qne_push_status != 'error'"/>
+                    </group>
+                    <div class="oe_button_box" name="qne_push_buttons">
+                        <button name="action_qne_push_supplier" type="object"
+                                string="Push Supplier to QNE" class="btn btn-secondary"/>
+                        <button name="action_qne_push_customer" type="object"
+                                string="Push Customer to QNE" class="btn btn-secondary"/>
+                    </div>
                 </page>
             </notebook>
         </field>
