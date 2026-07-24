@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_picking_form_qne" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.qne.connector</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_qne_push_delivery_order" type="object"
+                        string="Push to QNE"
+                        class="oe_stat_button"
+                        icon="fa-cloud-upload"
+                        invisible="picking_type_code != 'outgoing'">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Push to QNE</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group string="QNE Sync" invisible="picking_type_code != 'outgoing'">
+                    <field name="qne_delivery_id"/>
+                    <field name="qne_last_push_date"/>
+                    <field name="qne_push_status"/>
+                    <field name="qne_push_message" invisible="qne_push_status != 'error'"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
