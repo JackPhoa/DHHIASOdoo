@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_template_form_qne" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.qne.connector</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_qne_push_product" type="object"
+                        string="Push to QNE"
+                        class="oe_stat_button"
+                        icon="fa-cloud-upload">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Push to QNE</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="QNE Sync" name="qne_sync">
+                    <group>
+                        <field name="qne_item_id"/>
+                        <field name="qne_last_push_date"/>
+                        <field name="qne_push_status"/>
+                        <field name="qne_push_message" invisible="qne_push_status != 'error'"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
