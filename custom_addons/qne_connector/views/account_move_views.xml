@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form_qne" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.qne.connector</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_qne_push_invoice" type="object"
+                        string="Push to QNE"
+                        class="oe_stat_button"
+                        icon="fa-cloud-upload"
+                        invisible="move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Push to QNE</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group string="QNE Sync"
+                       invisible="move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')">
+                    <field name="qne_invoice_id"/>
+                    <field name="qne_last_push_date"/>
+                    <field name="qne_push_status"/>
+                    <field name="qne_push_message" invisible="qne_push_status != 'error'"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
